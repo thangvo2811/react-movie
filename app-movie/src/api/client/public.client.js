@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "queryString";
 
-const baseURL = "https://api.themoviedb.org/3/movie/";
+const baseURL = "http://127.0.0.1:5000/api/v1/";
 
 const publicClient = axios.create({
   baseURL,
