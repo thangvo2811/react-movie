@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema(
   modalOptions
 );
 
-userSchema.method.setPassword = function (password) {
+userSchema.methods.setPassword = function (password) {
+  console.log("password: " + password);
   this.salt = crypto.randomBytes(16).toString("hex");
   this.password = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")

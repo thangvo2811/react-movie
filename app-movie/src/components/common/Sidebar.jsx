@@ -106,7 +106,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
         <Typography variant="h6" marginBottom="20px">
           PERSONAL
         </Typography>
-        <ListItemButton>
+        <ListItemButton onClick={onSwitchTheme}>
           <ListItemIcon>
             {themeMode === themeModes.dark && <DarkModeOutlinedIcon />}
             {themeMode === themeModes.light && <WbSunnyOutlinedIcon />}
@@ -128,7 +128,7 @@ const Sidebar = ({ open, toggleSidebar }) => {
       open={open}
       onClose={() => toggleSidebar(false)}
       sx={{
-        "& MuiDrawer-Paper": {
+        "& .MuiDrawer-Paper": {
           boxSizing: "border-box",
           width: sidebarWith,
           borderRight: "0px",

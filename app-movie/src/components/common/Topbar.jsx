@@ -15,12 +15,12 @@ import {
 import Box from "@mui/material/Box";
 import { themeModes } from "./../../configs/theme.configs";
 import { setThemeMode } from "../../redux/features/themeModeSlice.js";
-import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import Logo from "./Logo";
 import menuConfigs from "../../configs/menu.configs";
 import { Link } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import Sidebar from "./Sidebar";
+import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -49,17 +49,17 @@ const Topbar = () => {
   const { user } = useSelector((state) => state.user);
   const { appState } = useSelector((state) => state.appState);
   const { themeMode } = useSelector((state) => state.themeMode);
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const dispatch = useDispatch();
 
-  const onSwithTheme = () => {
+  const onSwitchTheme = () => {
     const theme =
       themeMode === themeModes.dark ? themeModes.light : themeModes.dark;
     dispatch(setThemeMode(theme));
   };
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   return (
     <>
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -107,7 +107,7 @@ const Topbar = () => {
                   {item?.display}
                 </Button>
               ))}
-              <IconButton sx={{ color: "inherit" }} onClick={onSwithTheme}>
+              <IconButton sx={{ color: "inherit" }} onClick={onSwitchTheme}>
                 {themeMode === themeModes.dark && <DarkModeOutlinedIcon />}
                 {themeMode === themeModes.light && <WbSunnyOutlinedIcon />}
               </IconButton>
@@ -119,7 +119,7 @@ const Topbar = () => {
               {!user && (
                 <Button
                   variant="contained"
-                  onClick={() => setAuthModalOpen(true)}
+                  onClick={() => dispatch(setAuthModalOpen(true))}
                 >
                   sign in
                 </Button>

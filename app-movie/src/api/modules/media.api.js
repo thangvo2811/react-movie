@@ -16,7 +16,9 @@ const mediaApi = {
         mediaEndpoints.list({ mediaType, mediaCategory, page })
       );
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
   getDetail: async ({ mediaType, mediaId }) => {
     try {
@@ -24,7 +26,9 @@ const mediaApi = {
         mediaEndpoints.detail({ mediaType, mediaId })
       );
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
   search: async ({ mediaType, query, page }) => {
     try {
@@ -32,7 +36,9 @@ const mediaApi = {
         mediaEndpoints.search({ mediaType, query, page })
       );
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
 };
 export default mediaApi;

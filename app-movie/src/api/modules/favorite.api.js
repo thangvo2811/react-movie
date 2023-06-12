@@ -11,7 +11,9 @@ const favoriteApi = {
     try {
       const response = await privateClient.get(favoriteEndpoints.list);
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
   add: async ({ mediaId, mediaType, mediaTitle, mediaPoster, mediaRate }) => {
     try {
@@ -25,7 +27,9 @@ const favoriteApi = {
         })
       );
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
   remove: async ({ favoriteId }) => {
     try {
@@ -33,7 +37,9 @@ const favoriteApi = {
         favoriteEndpoints.remove({ favoriteId })
       );
       return { response };
-    } catch (error) {}
+    } catch (error) {
+      return { error };
+    }
   },
 };
 

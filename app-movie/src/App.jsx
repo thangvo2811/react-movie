@@ -8,6 +8,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import routes from "./routes/routes";
 import PageWrapper from "./components/common/PageWrapper";
+import "react-toastify/dist/ReactToastify.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const App = () => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -15,7 +19,7 @@ const App = () => {
     <ThemeProvider theme={themeConfigs.custom({ mode: themeMode })}>
       {/* config toastify */}
       <ToastContainer
-        position="top-right"
+        position="bottom-left"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

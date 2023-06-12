@@ -25,4 +25,4 @@ const tmdbConfigs = {
   youtubePath,
 };
 
-export default youtubePath;
+export default tmdbConfigs;

@@ -16,7 +16,9 @@ router.post(
     .isLength({ min: 8 })
     .withMessage("username minium 8 characters")
     .custom(async (value) => {
+      console.log("value", value);
       const user = await userModel.findOne({ username: value });
+      console.log("user", user);
       if (user) return Promise.reject("username already used");
     }),
   body("password")

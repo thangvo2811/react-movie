@@ -6,8 +6,6 @@ const userEndpoints = {
   signup: "user/signup",
   getInfo: "user/info",
   passwordUpdate: "user/update-password",
-  getFavorites: "user/favorites",
-  addFavorite: "user/favorites",
 };
 
 const userApi = {
@@ -37,7 +35,7 @@ const userApi = {
   },
   getInfo: async () => {
     try {
-      const response = await privateClient.post(userEndpoints.getInfo);
+      const response = await privateClient.get(userEndpoints.getInfo);
       return { response };
     } catch (err) {
       return { err };
@@ -56,3 +54,4 @@ const userApi = {
     }
   },
 };
+export default userApi;

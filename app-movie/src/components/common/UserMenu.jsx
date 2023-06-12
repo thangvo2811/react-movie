@@ -10,15 +10,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import menuConfigs from "../../configs/menu.configs";
 import { Link } from "react-router-dom";
+import { setUser } from "../../redux/features/userSlice";
 
 const UserMenu = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const toggleMenu = (e) => {
-    setAnchorEl(e.currentTarget, e.currentTarget);
-  };
+  const toggleMenu = (e) => setAnchorEl(e.currentTarget);
 
   return (
     <>
@@ -26,10 +25,10 @@ const UserMenu = () => {
         <>
           <Typography
             variant="h6"
-            sx={{ cursor: "pointer", userSelect: "none" }}
-            onCLick={toggleMenu}
+            sx={{ cursor: "pointer", useSelector: "none" }}
+            onClick={toggleMenu}
           >
-            {user?.displayName}
+            {user.displayName}
           </Typography>
           <Menu
             open={Boolean(anchorEl)}
@@ -37,19 +36,19 @@ const UserMenu = () => {
             onClose={() => setAnchorEl(null)}
             PaperProps={{ sx: { padding: 0 } }}
           >
-            {menuConfigs?.user?.map((item, index) => (
+            {menuConfigs.user.map((item, index) => (
               <ListItemButton
                 component={Link}
-                to={item?.path}
+                to={item.path}
                 key={index}
                 onClick={() => setAnchorEl(null)}
               >
-                <ListItemIcon>{item?.icon}</ListItemIcon>
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText
                   disableTypography
                   primary={
                     <Typography textTransform="uppercase">
-                      {item?.display}
+                      {item.display}
                     </Typography>
                   }
                 ></ListItemText>
@@ -57,18 +56,18 @@ const UserMenu = () => {
             ))}
             <ListItemButton
               sx={{ borderRadius: "10px" }}
-              onClick={() => dispatch(setAnchorEl(null))}
+              onClick={() => dispatch(setUser(null))}
             >
               <ListItemIcon>
-                <LogoutOutlinedIcon />
+                <LogoutOutlinedIcon></LogoutOutlinedIcon>
               </ListItemIcon>
+              <ListItemText
+                disableTypography
+                primary={
+                  <Typography textTransform="uppercase">sign out</Typography>
+                }
+              ></ListItemText>
             </ListItemButton>
-            <ListItemText
-              disableTypography
-              primary={
-                <Typography textTransform="uppercase">sign out</Typography>
-              }
-            ></ListItemText>
           </Menu>
         </>
       )}
