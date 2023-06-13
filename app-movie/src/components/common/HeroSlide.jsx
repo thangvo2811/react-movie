@@ -21,6 +21,7 @@ import mediaApi from "./../../api/modules/media.api";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const HeroSlide = ({ mediaType, mediaCategory }) => {
   const theme = useTheme();
@@ -36,7 +37,6 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       });
-      console.log("Medias", response);
       if (response) setMovies(response.results);
       if (err) toast.error(err.message);
       dispatch(setGlobalLoading(false));
@@ -45,7 +45,6 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     const getGenres = async () => {
       dispatch(setGlobalLoading(true));
       const { response, err } = await genreApi.getList({ mediaType });
-      console.log("Genres", response);
 
       if (response) {
         setGenres(response.genres);
@@ -80,11 +79,11 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       <Swiper
         grabCursor={true}
         loop={true}
-        modules={[Autoplay]}
+        // modules={[Autoplay]}
         style={{ width: "100%", height: "max-content" }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // autoplay={{ delay: 3000, disableOnInteraction: false }}
       >
-        {movies?.map((movie, index) => (
+        {movies?.map((item, index) => (
           <SwiperSlide key={index}>
             <Box
               sx={{
@@ -92,10 +91,97 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
                 backgroundPosition: "top",
                 backgroundSize: "cover",
                 backgroundImage: `url(${tmdbConfigs.backdropPath(
-                  movie.backdrop_path || movie.posters_path
+                  item?.backdrop_path || item?.poster_path
                 )})`,
               }}
-            ></Box>
+            />
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "0",
+                left: "0",
+                ...uiConfigs.style.horizontalGradientBgImage[
+                  theme.palette.mode
+                ],
+              }}
+            />
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "0",
+                left: "0",
+                paddingX: { sm: "10px", md: "5rem", lg: "10rem" },
+              }}
+            >
+              <Box
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  paddingX: "30px",
+                  color: "text.primary",
+                  width: { sm: "unset", md: "30%", lg: "40%" },
+                }}
+              >
+                <Stack spacing={4} direction="column">
+                  {/* title */}
+                  <Typography
+                    variant="h4"
+                    fontSize={{ xs: "2rem", md: "2rem", lg: "4rem" }}
+                    fontWeight="700"
+                    sx={{ ...uiConfigs.style.typoLines(2, "left") }}
+                  >
+                    {item?.title || item?.name}
+                  </Typography>
+                  {/* title */}
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    {/* rating */}
+                    <CircularRate value={item?.vote_average} />
+                    {/* rating */}
+
+                    <Divider orientation="vertical" />
+                    {/* genre */}
+                    {[...item?.genre_ids].splice(0, 2).map((genreId, index) => (
+                      <Chip
+                        variant="filled"
+                        color="primary"
+                        key={index}
+                        label={
+                          genres.find((e) => e.id === genreId) &&
+                          genres.find((e) => e.id === genreId).name
+                        }
+                      ></Chip>
+                    ))}
+                    {/* genre */}
+                  </Stack>
+                  {/* overview */}
+                  <Typography
+                    variant="body1"
+                    sx={{ ...uiConfigs.style.typoLines(3) }}
+                  >
+                    {item?.overview}
+                  </Typography>
+                  {/* overview */}
+
+                  {/* button */}
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<PlayArrowIcon />}
+                    component={Link}
+                    to={routesGen.mediaDetail(mediaType, item?.id)}
+                    sx={{ width: "max-content" }}
+                  >
+                    watch now
+                  </Button>
+                  {/* button */}
+                </Stack>
+              </Box>
+            </Box>
           </SwiperSlide>
         ))}
       </Swiper>

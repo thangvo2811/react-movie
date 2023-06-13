@@ -58,7 +58,7 @@ const getDetail = async (req, res) => {
     const videos = await tmdbApi.mediaVideos(params);
 
     media.videos = videos;
-    const recommend = await tmbbApi.mediaRecommendations(params);
+    const recommend = await tmdbApi.mediaRecommend(params);
 
     media.recommend = recommend.results;
 
@@ -83,7 +83,8 @@ const getDetail = async (req, res) => {
       .sort("-createdAt");
 
     responseHandler.ok(res, media);
-  } catch {
+  } catch (e) {
+    console.log(e);
     responseHandler.error(res);
   }
 };

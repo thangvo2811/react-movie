@@ -25,7 +25,7 @@ const Container = ({ header, children }) => {
               },
             }}
           >
-            <Typography variant="h5" fontWeight="700">
+            <Typography variant="h5" fontWeight="700" textTransform="uppercase">
               {header}
             </Typography>
           </Box>
