@@ -19,12 +19,13 @@ import tmdbConfigs from "../api/configs/tmdb.configs";
 import uiConfigs from "../configs/ui.config";
 import Container from "./../components/common/Container";
 import CastSlide from "../components/common/CastSlide";
+import favoriteApi from "./../api/modules/favorite.api";
+import MediaVideosSlide from "../components/common/MediaVideosSlide";
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
   const videoRef = useRef();
   const dispatch = useDispatch();
-  console.log(mediaId);
 
   const { user, listFavorites } = useSelector((state) => state.user);
 
@@ -40,7 +41,6 @@ const MediaDetail = () => {
         mediaType,
         mediaId,
       });
-      console.log(mediaId);
       dispatch(setGlobalLoading(false));
 
       if (response) {
@@ -53,6 +53,53 @@ const MediaDetail = () => {
     getMedia();
   }, [dispatch, mediaId, mediaType]);
 
+  const onFavoriteClick = async () => {
+    if (!user) return dispatch(setAuthModalOpen(true));
+
+    if (onRequest) return;
+
+    if (isFavorite) {
+      onRemoveFavorite();
+      return;
+    }
+
+    setOnRequest(true);
+
+    const body = {
+      mediaId: media.id,
+      mediaTitle: media.title || media.name,
+      mediaType: mediaType,
+      mediaPoster: media.poster_path,
+      mediaRate: media.vote_average,
+    };
+    const { response, err } = await favoriteApi.add(body);
+    setOnRequest(false);
+    console.log(response);
+    if (err) toast.error(err.message);
+    if (response) {
+      dispatch(addFavorites(response));
+      setIsFavorite(true);
+      toast.success("Add favorite success!");
+    }
+  };
+  const onRemoveFavorite = async () => {
+    if (onRequest) return;
+    setOnRequest(true);
+    const favorite = listFavorites.find(
+      (e) => e.mediaId.toString() === media.id.toString()
+    );
+    console.log(favorite);
+    const { response, err } = await favoriteApi.remove({
+      favoriteId: favorite?.id,
+    });
+    setOnRequest(false);
+    if (err) toast.error(err.message);
+    if (response) {
+      dispatch(removeFavorites(favorite));
+      setIsFavorite(false);
+      toast.success("Remove favorite success!");
+    }
+  };
   return media ? (
     <>
       <ImageHeader
@@ -151,7 +198,7 @@ const MediaDetail = () => {
                     }
                     loadingPosition="start"
                     loading={onRequest}
-                    // onClick={}
+                    onClick={onFavoriteClick}
                   />
                   <Button
                     variant="contained"
@@ -176,6 +223,14 @@ const MediaDetail = () => {
           </Box>
         </Box>
         {/* media content */}
+
+        {/* media videos */}
+        <div ref={videoRef} style={{ paddingTop: "2rem" }}>
+          <Container header="Videos">
+            <MediaVideosSlide videos={media.videos.results} />
+          </Container>
+        </div>
+        {/* media videos */}
       </Box>
     </>
   ) : null;
