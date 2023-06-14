@@ -29,7 +29,7 @@ const NavigationSwiper = ({ children }) => {
         grabCursor={true}
         pagination={{ clickable: true }}
         navigation={true}
-        modules={{ Navigation, Pagination }}
+        modules={[Navigation, Pagination]}
         style={{ width: "100%", height: "max-content" }}
       >
         {children}
