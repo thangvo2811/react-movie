@@ -21,6 +21,11 @@ import Container from "./../components/common/Container";
 import CastSlide from "../components/common/CastSlide";
 import favoriteApi from "./../api/modules/favorite.api";
 import MediaVideosSlide from "../components/common/MediaVideosSlide";
+import BackdropSlide from "../components/common/BackdropSlide";
+import PosterSlide from "../components/common/PosterSlide";
+import RecommendSlide from "../components/common/RecommendSlide";
+import MediaSlide from "../components/common/MediaSlide";
+import MediaReview from "../components/common/MediaReview";
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
@@ -231,6 +236,47 @@ const MediaDetail = () => {
           </Container>
         </div>
         {/* media videos */}
+
+        {/* media backdrop_path */}
+        {media.images.backdrops.length > 0 && (
+          <Container header="backdrops">
+            <BackdropSlide backdrops={media.images.backdrops} />
+          </Container>
+        )}
+        {/* media backdrops*/}
+
+        {/* media poster */}
+        {media.images.posters.length > 0 && (
+          <Container header="posters">
+            <PosterSlide posters={media.images.posters} />
+          </Container>
+        )}
+        {/* media poster */}
+
+        {/* media reviews */}
+        <MediaReview
+          reviews={media.reviews}
+          media={media}
+          mediaType={mediaType}
+        />
+        {/* media reviews */}
+
+        {/* media recommendation */}
+        <Container header="you may also like">
+          {media.recommend.length > 0 && (
+            <RecommendSlide
+              medias={media.recommend}
+              mediaType={mediaType}
+            ></RecommendSlide>
+          )}
+          {media.recommend.length === 0 && (
+            <MediaSlide
+              mediaType={mediaType}
+              mediaCategory={tmdbConfigs.mediaCategory.top_rated}
+            ></MediaSlide>
+          )}
+        </Container>
+        {/* media recommendation */}
       </Box>
     </>
   ) : null;

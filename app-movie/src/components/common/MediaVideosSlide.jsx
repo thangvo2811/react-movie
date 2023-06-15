@@ -27,7 +27,7 @@ const MediaVideosSlide = ({ videos }) => {
   // console.log(videos);
   return (
     <NavigationSwiper>
-      {videos.map((video, index) => (
+      {videos.splice(0, 2).map((video, index) => (
         <SwiperSlide key={index}>
           <MediaVideo video={video}></MediaVideo>
         </SwiperSlide>
