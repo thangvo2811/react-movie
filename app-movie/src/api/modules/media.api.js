@@ -6,7 +6,7 @@ const mediaEndpoints = {
     `${mediaType}/${mediaCategory}/`,
   detail: ({ mediaType, mediaId }) => `${mediaType}/detail/${mediaId}`,
   search: ({ mediaType, query, page }) =>
-    `${mediaType}/search?query=${query}&page=${page}`,
+    `${mediaType}/search/query=${query}?page=${page}`,
 };
 
 const mediaApi = {
