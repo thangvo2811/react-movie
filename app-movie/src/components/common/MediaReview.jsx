@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import reviewApi from "./../../api/modules/review.api";
+import reviewApi from "../../api/modules/review.api";
 import { toast } from "react-toastify";
 import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -23,9 +23,11 @@ const ReviewItem = ({ review, onRemoved }) => {
     const { response, err } = await reviewApi.remove({
       reviewId: review.id,
     });
-    console.log(reviewApi);
-    console.log("review.user.id", review.user.id);
-    if (err) toast.error(err.message);
+    console.log("Response", response);
+    if (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
     if (response) onRemoved(review.id);
   };
   // console.log("content", review._doc.content);
@@ -50,7 +52,7 @@ const ReviewItem = ({ review, onRemoved }) => {
             <Typography variant="h6" fontWeight="700">
               {review.user.displayName}
             </Typography>
-            <Typography>
+            <Typography variant="caption">
               {dayjs(review.createdAt).format("DD-MM-YYYY HH:mm:ss")}
             </Typography>
           </Stack>
@@ -93,7 +95,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
 
   useEffect(() => {
     setListReviews([...reviews]);
-    setListFavorites([...reviews].splice(0, skip));
+    setFilteredReviews([...reviews].splice(0, skip));
     setReviewCount(reviews.length);
   }, [reviews]);
 
@@ -130,7 +132,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
   };
 
   const onRemoved = (id) => {
-    console.log(id);
+    console.log("id", id);
     if (listReviews.findIndex((e) => (e.id === id) !== -1)) {
       const newListReviews = [...listReviews].filter((e) => e.id !== id);
       setListReviews(newListReviews);
@@ -142,8 +144,6 @@ const MediaReview = ({ reviews, media, mediaType }) => {
 
     toast.success("Remove review successfully");
   };
-  console.log(listReviews);
-  console.log("fiter", filteredReviews);
   return (
     <Container header={`Review ${reviewCount}`}>
       <Stack spacing={4} marginBottom={2}>
